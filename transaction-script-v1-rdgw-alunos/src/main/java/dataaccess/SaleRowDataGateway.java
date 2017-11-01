@@ -43,7 +43,7 @@ public class SaleRowDataGateway {
 	private double totalDiscount;
 	private double totalSale;
 	SaleStatus saleStatus;
-	
+	private int saleStatusId;
 	/**
 	 * The select a sale by Id SQL statement
 	 */
@@ -60,6 +60,9 @@ public class SaleRowDataGateway {
 
 	// 1. constructor 
 
+	private static final int OPEN = 1;
+	private static final int CLOSED = 2;
+	
 	/**
 	 * Creates a new sale given the customer Id and the date it occurs.
 	 * 
@@ -72,7 +75,7 @@ public class SaleRowDataGateway {
 		this.date = new java.sql.Date(date.getTime());
 		this.totalDiscount = 0;
 		this.totalSale = 0;
-		this.saleStatus = SaleStatus.OPEN;
+		setSaleStatus(saleStatus);
 	}
 
 	// 2. getters and setters
@@ -84,7 +87,7 @@ public class SaleRowDataGateway {
 
 	public SaleStatus getStatus() {
 		// TODO Auto-generated method stub
-		return toSaleStatus(saleStatus);
+		return toSaleStatus(saleStatusId);
 	}
 
 	public int getCustomerId() {
@@ -103,8 +106,8 @@ public class SaleRowDataGateway {
 	 * @param discountType The new discount type
 	 */
 	public void setSaleStatus(SaleStatus saleStatus) {
-		this.saleStatus= saleStatus == SaleStatus.SALE_AMOUNT ? SALE_AMOUNT : 
-			discountType == DiscountType.ELIGIBLE_PRODUCTS ? ELIGIBLE_PRODUCTS : NO_DISCOUNT;
+		this.saleStatusId = saleStatus == SaleStatus.OPEN ? OPEN : 
+			saleStatus == SaleStatus.CLOSED ? CLOSED : OPEN;
 	}
 
 	/**
@@ -114,9 +117,9 @@ public class SaleRowDataGateway {
 	 * are converted to DiscountType.NO_DISCOUNT.
 	 * @return The discount type corresponding to an integer.
 	 */
-	private static SaleStatus toSaleStatus(int saleStatus) {
-		return saleStatus == ELIGIBLE_PRODUCTS ? DiscountType.ELIGIBLE_PRODUCTS : 
-			discountId == SALE_AMOUNT ? DiscountType.SALE_AMOUNT : DiscountType.NO_DISCOUNT;
+	private static SaleStatus toSaleStatus(int saleStatusId) {
+		return saleStatusId == OPEN ? SaleStatus.OPEN : 
+			saleStatusId == CLOSED ? SaleStatus.CLOSED : SaleStatus.OPEN;
 	}
 	
 	// 3. interaction with the repository (a memory map in this simple example)
@@ -131,7 +134,7 @@ public class SaleRowDataGateway {
 			statement.setDate(1, date);
 			statement.setDouble(2, totalSale);
 			statement.setDouble(3, totalDiscount);
-			statement.setInt(4, saleStatus);
+			statement.setInt(4, saleStatusId);
 			statement.setInt(5, customerId);
 			// executes SQL
 			statement.executeUpdate();
