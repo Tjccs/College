@@ -3,7 +3,7 @@ package fcul.pco.dentalclinic;
 public class Appointment {
 
 		/*
-		 * variables initialization
+		 * variables declaration
 		 */
 		private Date date;
 		private String task;
@@ -15,10 +15,18 @@ public class Appointment {
 			this.task = task;
 			this.duration = duration;
 		}
+		
+		
+		/**
+		 * 
+		 * @param task
+		 * 
+		 */
 		public void setTask(String task) {
 			this.task = task;
 		}
-
+		
+		
 		public Date getEndDate() {
 			return date;
 		}
