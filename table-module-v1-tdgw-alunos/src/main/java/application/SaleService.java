@@ -40,7 +40,7 @@ public class SaleService {
 	 */
 	public int newSale (int vat) throws ApplicationException {
 		// TODO: program me!
-		return 0;
+		return saleModule.newSale(vat);
 	}
 
 	
@@ -58,6 +58,7 @@ public class SaleService {
 	 */
 	public void addProductToSale (int saleId, int productCode, double qty) throws ApplicationException {
 		// TODO: program me!
+		saleModule.addProductToSale(saleId, productCode, qty);
 	}
 	
 	
@@ -71,6 +72,6 @@ public class SaleService {
 	 */
 	public double getSaleDiscount (int saleId) throws ApplicationException {
 		// TODO: program me!
-		return 0;
+		return saleModule.getSaleDiscount(saleId);
 	}
 }

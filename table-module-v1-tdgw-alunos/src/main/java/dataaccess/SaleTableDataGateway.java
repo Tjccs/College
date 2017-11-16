@@ -54,8 +54,7 @@ public class SaleTableDataGateway extends TableDataGateway {
     		"insert into " + TABLE_NAME + 
 			" (" + ID_COLUMN_NAME + ", " + DATE_COLUMN_NAME + ", " + TOTAL_COLUMN_NAME + ", " +
 				DISCOUNT_TOTAL_COLUMN_NAME + ", " + STATUS_COLUMN_NAME + ", " + CUSTOMER_ID_COLUMN_NAME + ") " +
-		"values (DEFAULT, ?, ?, ?, ?, ?)"; // TODO
-
+		"values (DEFAULT, ?, ?, ?, ?, ?)"; 
 
 	/**
 	 * obtain a sale by Id SQL statement
@@ -63,7 +62,7 @@ public class SaleTableDataGateway extends TableDataGateway {
 	private static final String GET_SALE_SQL = 
 			"select * " +
 					"from " + TABLE_NAME + " " + 
-					"where " + ID_COLUMN_NAME + " = ?"; // TODO
+					"where " + ID_COLUMN_NAME + " = ?"; 
 
 
 	/**
@@ -115,11 +114,12 @@ public class SaleTableDataGateway extends TableDataGateway {
 	/**
 	 * Updates the discount id of the customer
 	 * 
-	 * @param discountType The new discount type
+	 * @param saleStatus The new sale status
 	 */
 	public String setSaleStatus(SaleStatus saleStatus) {
-		return saleStatus == SaleStatus.OPEN ? OPEN : 
-			saleStatus == SaleStatus.CLOSED ? CLOSED : OPEN;
+		//return saleStatus == SaleStatus.OPEN ? OPEN : 
+		//	saleStatus == SaleStatus.CLOSED ? CLOSED : OPEN;
+		return (saleStatus == SaleStatus.OPEN) ? OPEN : CLOSED;
 	}
 	
 	
@@ -205,12 +205,15 @@ public class SaleTableDataGateway extends TableDataGateway {
 		try {
 			
 			ss = r.getString(STATUS_COLUMN_NAME);
-			if (ss.equals(OPEN)) {
-				return SaleStatus.OPEN;
-				
-			}else {
-				return SaleStatus.CLOSED;
-			}
+			/*if (ss.equals(OPEN)) {
+			*	return SaleStatus.OPEN;
+			*	
+			*}else {
+			*	return SaleStatus.CLOSED;
+			*}
+			*/
+			return (ss.equals(OPEN)) ? SaleStatus.OPEN : SaleStatus.CLOSED;
+		
 		}catch (ArrayIndexOutOfBoundsException e) {
 			throw new PersistenceException("Internal error converting sale status", e);
 		}

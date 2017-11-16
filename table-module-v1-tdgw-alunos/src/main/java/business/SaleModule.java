@@ -1,13 +1,16 @@
 package business;
 
+import java.util.Date;
+
 import dataaccess.Persistence;
 import dataaccess.SaleTableDataGateway;
+import datatypes.SaleStatus;
 import facade.exceptions.ApplicationException;
 
 public class SaleModule extends TableModule {
 
 	private SaleTableDataGateway table;
-
+	
 	/**
 	 * Constructs a sale module given the persistence repository
 	 * 
@@ -31,7 +34,9 @@ public class SaleModule extends TableModule {
 	 */
 	public int newSale (int vat) throws ApplicationException {
 		// TODO: program me!
-		return 0;
+		
+		return table.insert(new Date(), 0, 0, SaleStatus.OPEN, CustomerModule.getCustomerId(vat));
+	
 	}
 	
 	/**
@@ -42,7 +47,7 @@ public class SaleModule extends TableModule {
 	 */
 	public boolean isClosed(int saleId) throws ApplicationException {
 		// TODO: program me!
-		return false;
+		return table.readStatus(r);
 	}
 	
 	/**
