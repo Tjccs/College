@@ -1,4 +1,4 @@
-package fcul.pco.dentalclinic;
+package fcul.pco.dentalclinic.main;
 
 public class Test {
 

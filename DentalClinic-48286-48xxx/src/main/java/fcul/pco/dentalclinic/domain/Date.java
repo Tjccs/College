@@ -1,4 +1,4 @@
-package fcul.pco.dentalclinic;
+package fcul.pco.dentalclinic.domain;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -69,7 +69,7 @@ public class Date {
 	
 	/**
 	 * 
-	 * @return True if the date is an holyday, false by default
+	 * @return True if the date is an holiday, false by default
 	 */
 	public boolean isHolyday() {
 		Date dateToCheck = new Date(this.day, this.month);

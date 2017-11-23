@@ -1,4 +1,4 @@
-package fcul.pco.dentalclinic;
+package fcul.pco.dentalclinic.domain;
 
 public class Appointment {
 
