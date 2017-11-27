@@ -33,6 +33,6 @@ public class Appointment {
 		
 		@Override
 		public String toString() {
-			return date+"$"+duration+"$"+task;
+			return date+"$"+duration+""+task;
 		}
 }
