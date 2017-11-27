@@ -30,4 +30,9 @@ public class Appointment {
 		public Date getEndDate() {
 			return date;
 		}
+		
+		@Override
+		public String toString() {
+			return date+"$"+duration+"$"+task;
+		}
 }

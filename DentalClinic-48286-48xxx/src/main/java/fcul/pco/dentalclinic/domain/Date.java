@@ -29,6 +29,7 @@ public class Date {
 			new Date(12,25)
 	};
 	
+	// Date constants
 	private static final Date STARTDATE = new Date(2000, 1, 1);
 	private static final int STARTDATEINT = STARTDATE.intValue();
 	
@@ -40,12 +41,18 @@ public class Date {
 		this.min = minute;
 	}
 	
+	/**
+	 * Constructor
+	 * 
+	 * @param month The month for the date
+	 * @param day The day for the date
+	 */
 	private Date(int month, int day) {
 		this.month = month;
 		this.day = day;
 	}
 	
-	/*
+	/**
 	 * Check if it's the same day
 	 * 
 	 * @param another Date variable
@@ -56,7 +63,7 @@ public class Date {
 		return (this.day == other.day && month == other.month) ? true : false;
 	}
 	
-	/*
+	/**
 	 * Check if the object date is before the other date
 	 * 
 	 * @param another Date variable
@@ -68,7 +75,7 @@ public class Date {
 	}
 	
 	/**
-	 * 
+	 * Check if it's holiday
 	 * @return True if the date is an holiday, false by default
 	 */
 	public boolean isHolyday() {
