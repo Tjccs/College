@@ -1,5 +1,6 @@
 package fcul.pco.dentalclinic.domain;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
@@ -33,12 +34,18 @@ public class Date {
 	private static final Date STARTDATE = new Date(2000, 1, 1);
 	private static final int STARTDATEINT = STARTDATE.intValue();
 	
-	public Date(int d, int m, int y, int h, int minute) {
+	/**
+	 * Constructor
+	 * @param y The year of the date
+	 * @param m The month of the date
+	 * @param d The day of the date
+	 */
+	public Date(int y, int m, int d) {
 		this.day = d;
 		this.month = m;
 		this.year = y;
-		this.hour = h;
-		this.min = minute;
+		//this.hour = h;
+		//this.min = minute;
 	}
 	
 	/**
@@ -89,14 +96,25 @@ public class Date {
 		return result;
 	}
 
+	/**
+	 * Check if it's leap year.
+	 * @param year The year to check
+	 * @return True if it's leap year or false otherwise.
+	 */
 	private static boolean isLeapYear(int year) {
 		Calendar cal = Calendar.getInstance();
 		cal.set(Calendar.YEAR, year);
 		return cal.getActualMaximum(Calendar.DAY_OF_YEAR) > 365;
 	}
 	
+	/**
+	 * Gives the days in the month param.
+	 * @param month The month to check
+	 * @param year The year to check its its a leap year or not.
+	 * @return The days in a given month
+	 */
 	private static int daysInMonth(int month, int year) {
-		int days;
+		int days = 0;
 		switch (month) {
 		    case 1:
 		    case 3:
@@ -121,8 +139,14 @@ public class Date {
 		    	}
 		    	break;
 		}
+		return days;
 	}
 	
+	/**
+	 * Checks if it's a year with 366 or 365 days.
+	 * @param year A given year
+	 * @return The days of the year, either 365 or 366.
+	 */
 	private static int daysInYear(int year) {
 		return (isLeapYear(year)) ? 366 : 365;
 	}
@@ -140,13 +164,22 @@ public class Date {
 		return value - STARTDATEINT;
 	}
 	
+	/**
+	 * Gives us the days that passed since the start date.
+	 * @return The number of days passed since the start date.
+	 */
 	private int daysSinceStartDate() {
 		
 		//Date currentDate = new Date(this.day, this.month, this.year, this.hour, this.min);
 		return this.intValue() - STARTDATEINT; 
 	}
 	
-	public int dayOfWeek() {
+	/**
+	 * Gives the day of the week as an int(0=Monday, 1=Thursday, etc..)
+	 * @return the day of the week as an in.
+	 * @throws ParseException
+	 */
+	public int dayOfWeek() throws ParseException {
 		
 		//this needs to be replaced, it's just a place holder.
 		String dateString = day+"/"+month+"/"+year;
@@ -158,6 +191,15 @@ public class Date {
 	
 		 
 	}
+	
+	@Override
+	public String toString() {
+		return year+"-"+month+"-"+day;
+	}
 
-
+	public static Date fromString(String s) {
+		String[] elements = s.split("-");
+    	Date d = new Date(Integer.parseInt(elements[0]),Integer.parseInt(elements[1]), Integer.parseInt(elements[2])); 
+    	return d;
+	}
 }

@@ -37,10 +37,10 @@ public class DoctorCatalog {
 	
 		while (scanner.hasNext()) {
 			String[] element = scanner.nextLine().split(",");
-			String name = element[0];
-			int id = Integer.parseInt(element[1]);
-			Doctor d = Doctor.fromString(name+","+id);
-			dLoad.put(id,d);
+			//String name = element[0];
+			//int id = Integer.parseInt(element[1]);
+			Doctor d = Doctor.fromString(element[0]+","+element[1]);
+			dLoad.put(Integer.parseInt(element[1]),d);
 		}
 		scanner.close();
 		return dLoad;
