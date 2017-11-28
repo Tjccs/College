@@ -1,0 +1,32 @@
+In order to create a derby/mysql database to run the project, do the following:
+
+1. Run dbutils.CreateDatabase that uses JPA together with annotations to create
+the database. If something is wrong with your annotations the creation will fail.
+You need to fix the annotations and execute the class again.
+
+Every time you run this class, the tables from the database will be removed
+and the database will be created again. The removal and creation of tables 
+is based on the current metadata, so, if there is a change in the metadata,
+classes can be wrongly deleted (because they were created using annotations
+that are no longer in place). In this cases remove (manually) the database
+and run the dbutils.CreateDatabase again.
+
+The script used to insert values are in META-INF/load-script.sql 
+
+2. In case you need to reset the tables, run dbutils.ResetTables as in 
+the other projects as you did before. The script it runs is in META-INF/resetTables.sql. 
+
+3. The project can use MySql or Derby. 
+
+There are two persistence files "persistence-derby.xml" and "persistence-mysql.xml"
+in META-INF (src/main/resources). The former is configure to access a derby database;
+the latter for accessing mysql. Just copy the contents of the file you need to  
+access the database to "persistence.xml". 
+
+For instance, copy the persistence-derby.xml to persistence.xml to access the derby database.
+
+4. You can now run the startup.Startup
+
+5. If you want to run using the MySql database, besides copying the
+persistence-mysql.xml to persistence.xml, do not forget to connect to FCUL VPN 
+before running dbutils.CreateDatabase or startup.Startup.
