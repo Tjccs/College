@@ -3,6 +3,7 @@ package fcul.pco.dentalclinic.domain;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import fcul.pco.dentalclinic.persistence.AgendaPersistence;
@@ -10,7 +11,7 @@ import fcul.pco.dentalclinic.persistence.AgendaPersistence;
 public class Agenda implements Iterable<Appointment> {
 
 	/**
-	 * Atribute
+	 * Attribute
 	 */
 	ArrayList<Appointment> appointments = new ArrayList<Appointment>();
 	
@@ -19,7 +20,8 @@ public class Agenda implements Iterable<Appointment> {
 	}
 	
 	public void save(Doctor d) throws IOException {
-		AgendaPersistence.save(d);
+		//Duvida
+		AgendaPersistence.save(d.getAgenda(), d);
 	}
 	
 	public static Agenda load(Doctor d) throws FileNotFoundException {
@@ -29,4 +31,12 @@ public class Agenda implements Iterable<Appointment> {
 	public List<Appointment> getAppointments() {
 		return appointments;
 	}
+
+	@Override
+	public Iterator<Appointment> iterator() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	
 }

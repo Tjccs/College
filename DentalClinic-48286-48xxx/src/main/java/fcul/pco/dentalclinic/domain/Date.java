@@ -2,8 +2,14 @@ package fcul.pco.dentalclinic.domain;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.Calendar;
 
+/**
+ * 
+ * @author Fc48286, Fc485
+ *
+ */
 public class Date {
 	
 	/*
@@ -31,7 +37,7 @@ public class Date {
 	};
 	
 	// Date constants
-	private static final Date STARTDATE = new Date(2000, 1, 1);
+	private static final Date STARTDATE = new Date(2000, 1, 1, 0, 0);
 	private static final int STARTDATEINT = STARTDATE.intValue();
 	
 	/**
@@ -40,12 +46,12 @@ public class Date {
 	 * @param m The month of the date
 	 * @param d The day of the date
 	 */
-	public Date(int y, int m, int d) {
+	public Date(int y, int m, int d, int h, int minute) {
 		this.day = d;
 		this.month = m;
 		this.year = y;
-		//this.hour = h;
-		//this.min = minute;
+		this.hour = h;
+		this.min = minute;
 	}
 	
 	/**
@@ -169,7 +175,6 @@ public class Date {
 	 * @return The number of days passed since the start date.
 	 */
 	private int daysSinceStartDate() {
-		
 		//Date currentDate = new Date(this.day, this.month, this.year, this.hour, this.min);
 		return this.intValue() - STARTDATEINT; 
 	}
@@ -192,14 +197,20 @@ public class Date {
 		 
 	}
 	
+	public static Date getCurrentDate() {
+		LocalDateTime now = LocalDateTime.now();
+		return new Date(now.getYear(), now.getMonthValue(),now.getDayOfMonth(), now.getHour(), now.getMinute());
+	}
+	
 	@Override
 	public String toString() {
-		return year+"-"+month+"-"+day;
+		return year+"."+month+"."+day+"."+hour+"."+min;
 	}
 
 	public static Date fromString(String s) {
-		String[] elements = s.split("-");
-    	Date d = new Date(Integer.parseInt(elements[0]),Integer.parseInt(elements[1]), Integer.parseInt(elements[2])); 
+		String[] elements = s.split(".");
+    	Date d = new Date(Integer.parseInt(elements[0]),Integer.parseInt(elements[1]), Integer.parseInt(elements[2]), 
+    			Integer.parseInt(elements[3]), Integer.parseInt(elements[4])); 
     	return d;
 	}
 }

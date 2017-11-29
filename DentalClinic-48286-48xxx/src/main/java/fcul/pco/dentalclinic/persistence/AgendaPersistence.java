@@ -5,10 +5,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.List;
-import java.util.Map;
 import java.util.Scanner;
-import java.util.TreeMap;
 
 import fcul.pco.dentalclinic.domain.Agenda;
 import fcul.pco.dentalclinic.domain.Appointment;
@@ -20,12 +17,10 @@ public class AgendaPersistence {
 	public static void save(Agenda a, Doctor d) throws IOException {
 		StringBuilder sbf = new StringBuilder();
 		String dId = Integer.toString(d.getId());
-		List k = a.getAppointments();
 		for(Appointment ap : a) {
-			
+			sbf.append(ap.toString()+"\n");
 		}
-		
-		BufferedWriter bwr = new BufferedWriter(new FileWriter(new File(ApplicationConfiguration.ROOT_DIRECTORY,dId)));
+		BufferedWriter bwr = new BufferedWriter(new FileWriter(ApplicationConfiguration.ROOT_DIRECTORY+"/"+dId));
 	    bwr.write(sbf.toString());
 	    bwr.flush();
 	    bwr.close();

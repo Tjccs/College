@@ -1,8 +1,6 @@
 package fcul.pco.dentalclinic.domain;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.List;
+
 
 public class Appointment {
 
@@ -12,13 +10,16 @@ public class Appointment {
 		private Date date;
 		private String task;
 		private int duration;
-		//private Person patient;
+		private Patient patient;
+		private int pId;
+		PatientCatalog patientCatalog;
 		Agenda a;
 
-		public Appointment(Date date, String task, int duration) {
+		public Appointment(Date date, String task, int duration, int pId) {
 			this.date = date;
 			this.task = task;
 			this.duration = duration;
+			Patient p = patientCatalog.getPatientById(pId);
 		}
 		
 		
@@ -39,14 +40,12 @@ public class Appointment {
 		public static Appointment fromString(String s) {
 			String[] elements = s.split("[$]");
 			Date date = Date.fromString(elements[0]);
-			Appointment ap = new Appointment(date, elements[1], Integer.parseInt(elements[2]));
+			Appointment ap = new Appointment(date, elements[1], Integer.parseInt(elements[2]), Integer.parseInt(elements[3]));
 			return ap;
 		}
 		
-		
-		
 		@Override
 		public String toString() {
-			return date+"$"+task+"$"+duration;
+			return date+"$"+task+"$"+duration+"$"+pId;
 		}
 }

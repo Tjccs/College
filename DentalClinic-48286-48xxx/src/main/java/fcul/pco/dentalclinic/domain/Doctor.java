@@ -6,10 +6,10 @@ public class Doctor {
 	private int id;
 	private Agenda agenda;
 	
-	public Doctor(String name, int id) {
-		this.name = name;
+	public Doctor(int id, String name, Agenda agenda) {
 		this.id = id;
-		Agenda agenda;
+		this.name = name;
+		this.agenda = agenda;
 	}
 
 	public String getName() {
@@ -26,12 +26,13 @@ public class Doctor {
 
 	@Override
 	public String toString() {
-		return this.name+","+this.id;
+		return id+","+name;
 	}
 	
 	public static Doctor fromString(String s) {
 		String[] elements = s.split(",");
-    	Doctor d = new Doctor(elements[0],Integer.parseInt(elements[1])); 
+		//Duvida
+    	Doctor d = new Doctor(Integer.parseInt(elements[0]), elements[1], new Agenda()); 
     	return d;
 		
 		

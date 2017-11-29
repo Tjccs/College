@@ -13,7 +13,7 @@ import java.util.List;
 /**
  * This class deals with the interactions with the user.
  *
- * @author Thibault Langlois
+ * @author Fc48286, Fc485
  */
 public class Menu {
 
