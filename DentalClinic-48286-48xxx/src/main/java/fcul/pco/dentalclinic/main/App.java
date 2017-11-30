@@ -2,6 +2,7 @@ package fcul.pco.dentalclinic.main;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.Locale;
 import java.util.Scanner;
 
@@ -14,7 +15,7 @@ public class App {
 	static DoctorCatalog doctorCatalog;
 	static PatientCatalog patientCatalog;
 	
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) throws IOException, ParseException {
 		initialize();
 		interactiveMode();
 		//executeAllUseCases();
@@ -25,8 +26,9 @@ public class App {
 	*interacting with the keyboard.
 	*
 	*@throws IOException
+	 * @throws ParseException 
 	*/
-	private static void interactiveMode() throws IOException {
+	private static void interactiveMode() throws IOException, ParseException {
 		try (Scanner in = new Scanner(System.in)) {
 			in.useLocale(Locale.US);
 			Menu.mainMenu(in);
@@ -67,11 +69,12 @@ public class App {
 	*@param useCaseFileName A String that represents the name of a file that
 	*contains a use-case.
 	*@throws IOException
+	 * @throws ParseException 
 	*@requires the contents of the file must be correct with respect of the
 	*menus (see class Menu) and the input data expected by the application,
 	*unless the objective of the test is to verify an illegal situation.
 	*/
-	private static void executeUseCase(String useCaseFileName) throws IOException {
+	private static void executeUseCase(String useCaseFileName) throws IOException, ParseException {
 		System.out.println("Test: " + useCaseFileName);
 		Scanner in = new Scanner(new File(useCaseFileName));
 		in.useLocale(Locale.US);
@@ -80,7 +83,7 @@ public class App {
 		in.close();
 	}
 	
-	public static void executeAllUseCases() {
+	public static void executeAllUseCases() throws ParseException {
 		try {
 			executeUseCase("data/addDoctorUsecase");
 			// acrescentar aqui a execução de mais usecases.

@@ -33,6 +33,7 @@ public class Agenda implements Iterable<Appointment> {
 	}
 	
 	public List<Date> getNextAppointmentDates(Date from) {
+		//TODO
 		for(Appointment ap : appointments) {
 			
 		}

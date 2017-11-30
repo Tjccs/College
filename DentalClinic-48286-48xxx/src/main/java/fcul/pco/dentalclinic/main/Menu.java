@@ -1,12 +1,12 @@
 package fcul.pco.dentalclinic.main;
 
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.Scanner;
 
 import fcul.pco.dentalclinic.domain.Agenda;
 import fcul.pco.dentalclinic.domain.Appointment;
 import fcul.pco.dentalclinic.domain.Date;
-import fcul.pco.dentalclinic.domain.DayOfWeek;
 import fcul.pco.dentalclinic.domain.Doctor;
 import fcul.pco.dentalclinic.domain.Patient;
 import fcul.pco.dentalclinic.domain.Utils;
@@ -28,8 +28,9 @@ public class Menu {
      * @param in a Scanner instance that correspond to the input of the program.
      * @return
      * @throws IOException
+     * @throws ParseException 
      */
-    static void mainMenu(Scanner in) throws IOException {
+    static void mainMenu(Scanner in) throws IOException, ParseException {
         boolean end = false;
         do {
             System.out.println("Escolhe uma opção: ");
@@ -169,8 +170,9 @@ public class Menu {
      * @param in
      * @return
      * @throws IOException
+     * @throws ParseException 
      */
-    private static void createAppointmentMenu(Scanner in) throws IOException {
+    private static void createAppointmentMenu(Scanner in) throws IOException, ParseException {
         boolean end = false;
         do {
             System.out.println("Novo paciente..............1");
@@ -210,7 +212,7 @@ public class Menu {
         System.out.println(App.getPatientCatalog());
     }
 
-    private static void makeAppointment(Scanner in) throws IOException {
+    private static void makeAppointment(Scanner in) throws IOException, ParseException {
         Patient p = null;
         Doctor d = null;
         System.out.println(App.getPatientCatalog());

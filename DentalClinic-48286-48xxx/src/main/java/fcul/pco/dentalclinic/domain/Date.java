@@ -3,12 +3,14 @@ package fcul.pco.dentalclinic.domain;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
 /**
  * 
- * @author Fc48286, Fc485
+ * @author Fc48286
+ * @author Fc48760
  *
  */
 public class Date {
@@ -74,7 +76,7 @@ public class Date {
 	 * false otherwise.
 	 */
 	public boolean sameDay(Date other) {
-		return (this.day == other.day && month == other.month) ? true : false;
+		return (this.day == other.day && this.month == other.month && this.year == other.year) ? true : false;
 	}
 	
 	/**
@@ -85,9 +87,28 @@ public class Date {
 	 * false otherwise.
 	 */
 	public boolean isBefore(Date other) {
-		return (this.day < other.day && month < other.month) ? true : false;
+		//return (this.day < other.day && this.month < other.month) ? true : false;
+		if(this .year < other.year) return true;
+		if(this.year == other.year) {
+			if(this.month < other.month) {
+				return true;
+			}
+			if(this.month == other.month) {
+				if(this.day < other.day) {
+					return true;
+				}
+				if(this.day == other.day) {
+					if(this.hour < other.hour) {
+						return true;
+					}
+					if(this.hour == other.hour) {
+						return this.min < other.min;
+					}
+				}
+			}
+		}
+		return false;
 	}
-	
 	/**
 	 * Check if it's holiday
 	 * @return True if the date is an holiday, false by default
@@ -176,17 +197,28 @@ public class Date {
 	 * @return The number of days passed since the start date.
 	 */
 	private int daysSinceStartDate() {
-		//Date currentDate = new Date(this.day, this.month, this.year, this.hour, this.min);
+		
 		return this.intValue() - STARTDATEINT; 
 	}
 	
 	/**
-	 * 
+	 * Adds the given minutes to the date.
 	 * @param mins
 	 * @return a new date with the minutes added.
 	 */
 	public Date addMinutes(int mins) {
-		return null;
+		int minsAdd = min;
+		minsAdd += mins;
+		if(minsAdd >= 60) {
+			if(minsAdd == 60) {
+				minsAdd = 0;
+				this.hour += 1;
+			}else {
+				this.hour += mins / 60;
+				minsAdd %= 60;
+			}
+		}
+		return new Date(this.year, this.month,this.day,this.hour,minsAdd);
 	}
 	/**
 	 * Gives the day of the week as an int(0=Monday, 1=Thursday, etc..)
@@ -206,24 +238,39 @@ public class Date {
 		 
 	}
 	
+	/**
+	 * Gives the current date.
+	 * @return A date in the local time.
+	 */
 	public static Date getCurrentDate() {
 		LocalDateTime now = LocalDateTime.now();
 		return new Date(now.getYear(), now.getMonthValue(),now.getDayOfMonth(), now.getHour(), now.getMinute());
 	}
 	
+	/**
+	 * The method gives the next day starting at 9:00am.
+	 * @return A new day starting at 9:00am from next day.
+	 */
 	public static Date getTomorrowMorning() {
 		Date d = getCurrentDate();
 		Date d2 = new Date(d.year,d.month,d.day+1,d.hour=9,d.min=0);
 		return d2;
 	}
 	
-	
+	/**
+	 * 
+	 * @param every The minutes to add starting at the current date
+	 * @param exclude
+	 * @return A list with 10 Dates starting at the current one and adding "every" minutes, that excludes weekends, holidays and hours that are not within work hours.
+	 * @throws ParseException
+	 */
 	public List<Date> makeSmartDateList(int every, List<Date> exclude) throws ParseException {
 		Date refDate = this;
-		List<Date> dList = null;
-		for(int i=0; i <= 10; i++) {
-			//Têm que ser corrigido fazer com que os mins n passem de 59 e avançe a hora.
-			Date smartDate = new Date(refDate.year, refDate.month, refDate.day, refDate.hour, refDate.min+every);
+		List<Date> dList = new ArrayList<Date>();
+		for(int i=0; i < 10; i++) {
+			//Tem que ser corrigido fazer com que os mins n passem de 59 e avance a hora.
+			Date smartDate = new Date(refDate.year, refDate.month, refDate.day, refDate.hour, refDate.min);
+			smartDate.addMinutes(every);
 			if(smartDate.hour > 9 && smartDate.hour < 12 && smartDate.hour > 14 && smartDate.hour < 18) {
 				if(!(exclude.contains(smartDate)) && (!(smartDate.isHolyday())) && (smartDate.dayOfWeek() != 5) && (smartDate.dayOfWeek() != 6)) {
 					dList.add(smartDate);
@@ -232,6 +279,12 @@ public class Date {
 		}
 		return dList;
 	}
+	
+	public static String dateListToString(List<Date> listDate) {
+		//TODO
+		return null;
+	}
+	
 	@Override
 	public String toString() {
 		return year+"."+month+"."+day+"."+hour+"."+min;
