@@ -218,6 +218,9 @@ public class Date {
 				minsAdd %= 60;
 			}
 		}
+		if(this.hour == 24) {
+			this.day += 1;
+		}
 		return new Date(this.year, this.month,this.day,this.hour,minsAdd);
 	}
 	/**
@@ -267,8 +270,8 @@ public class Date {
 	public List<Date> makeSmartDateList(int every, List<Date> exclude) throws ParseException {
 		Date refDate = this;
 		List<Date> dList = new ArrayList<Date>();
-		for(int i=0; i < 10; i++) {
-			//Tem que ser corrigido fazer com que os mins n passem de 59 e avance a hora.
+		//for(int i=0; i < 10; i++) {
+		while(dList.size() != 10) {
 			Date smartDate = new Date(refDate.year, refDate.month, refDate.day, refDate.hour, refDate.min);
 			Date smartDateR = smartDate.addMinutes(every);
 			if(smartDateR.hour > 9 && smartDateR.hour < 12 && smartDateR.hour > 14 && smartDateR.hour < 18) {
