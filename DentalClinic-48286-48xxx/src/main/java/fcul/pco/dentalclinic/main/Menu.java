@@ -6,14 +6,17 @@ import java.util.Scanner;
 import fcul.pco.dentalclinic.domain.Agenda;
 import fcul.pco.dentalclinic.domain.Appointment;
 import fcul.pco.dentalclinic.domain.Date;
+import fcul.pco.dentalclinic.domain.DayOfWeek;
 import fcul.pco.dentalclinic.domain.Doctor;
 import fcul.pco.dentalclinic.domain.Patient;
+import fcul.pco.dentalclinic.domain.Utils;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * This class deals with the interactions with the user.
  *
- * @author Fc48286, Fc485
+ * @author Thibault Langlois
  */
 public class Menu {
 
@@ -98,35 +101,67 @@ public class Menu {
      */
     private static void doctorMenu(Scanner in) throws IOException {
         boolean end = false;
+        Doctor d = null;
         do {
-            System.out.println("Agenda do dia..............1");
-            System.out.println("Agenda da semana...........2");
-            System.out.println("Tratar paciente............3");
-            System.out.println("Terminar...................4");
+            System.out.println("Login......................1");
+            System.out.println("Agenda do dia..............2");
+            System.out.println("Agenda do dia seguinte.....3");
+            System.out.println("Agenda da semana...........4");
+            System.out.println("Tratar paciente............5");
+            System.out.println("Terminar...................6");
             System.out.println("> ");
             switch (nextInt(in)) {
                 case 1:
-                    dayAgenda(in);
+                    System.out.print("Digite o seu número: ");
+                    int n = nextInt(in);
+                    d = App.getDoctorCatalog().getDoctorById(n);
+                    if (d == null) {
+                        System.out.println("Este número não se encontra na base de dados da clinica.");
+                    }
                     break;
                 case 2:
-                    weekAgenda(in);
+                    if (d != null) {
+                        todayAgenda(d);
+                    }
                     break;
                 case 3:
-                    PacientMenu(in);
+                    if (d != null) {
+                        tomorrowAgenda(d);
+                    }
                     break;
                 case 4:
+                    if (d != null) {
+                        weekAgenda(d);
+                    }
+                    break;
+                case 5:
+                    if (d != null) {
+                        PacientMenu(in);
+                    }
+                    break;
+                case 6:
                     end = true;
                     break;
             }
         } while (!end);
     }
 
-    private static void dayAgenda(Scanner in) throws IOException {
-        // Not implemented yet
+    private static void todayAgenda(Doctor d) throws IOException {
+        Date today = Date.getCurrentDate();
+        dayAgenda(d, today);
     }
 
-    private static void weekAgenda(Scanner in) throws IOException {
-        // Not implemented yet
+    private static void tomorrowAgenda(Doctor d) throws IOException {
+        Date tomorrow = Date.getCurrentDate().addMinutes(24 * 60);
+        dayAgenda(d, tomorrow);
+    }
+
+    private static void dayAgenda(Doctor d, Date day) {
+        // not implemented yet.
+    }
+
+    private static void weekAgenda(Doctor doc) {
+        // not implemented yet.
     }
 
     /**
@@ -189,23 +224,23 @@ public class Menu {
             int idm = nextInt(in);
             d = App.getDoctorCatalog().getDoctorById(idm);
             if (d == null) {
-               System.out.println("Não existe médico com o número " + idm); 
+                System.out.println("Não existe médico com o número " + idm);
             } else {
-               Agenda a = d.getAgenda();
-               Date start = Date.getTomorrowMorning();
-               List<Date> exclude = a.getNextAppointmentDates(start);
-               System.out.println("exclude list : " + exclude);
-               List<Date> dateList = 
-                       start.makeSmartDateList(20,exclude);
-               System.out.println(Date.dateListToString(dateList));
-               System.out.print("Escolhe uma data: ");
-               Date choice = dateList.get(nextInt(in)-1);
-               System.out.println("Indique qual é o tratamento : ");
-               String treatment = nextLine(in);
-               Appointment apt = new Appointment(choice, treatment, 20, p);
-               a.addAppointment(apt);
-               System.out.println("Está marcado !");
-               a.save(d);
+                Agenda a = d.getAgenda();
+                Date start = Date.getTomorrowMorning();
+                List<Date> exclude = a.getNextAppointmentDates(start);
+                System.out.println("exclude list : " + exclude);
+                List<Date> dateList
+                        = start.makeSmartDateList(20, exclude);
+                System.out.println(Date.dateListToString(dateList));
+                System.out.print("Escolhe uma data: ");
+                Date choice = dateList.get(nextInt(in) - 1);
+                System.out.println("Indique qual é o tratamento : ");
+                String treatment = nextLine(in);
+                Appointment apt = new Appointment(choice, treatment, 20, p);
+                a.addAppointment(apt);
+                System.out.println("Está marcado !");
+                a.save(d);
             }
         }
     }

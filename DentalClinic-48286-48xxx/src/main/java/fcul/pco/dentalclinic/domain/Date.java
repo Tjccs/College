@@ -4,6 +4,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.Calendar;
+import java.util.List;
 
 /**
  * 
@@ -180,6 +181,14 @@ public class Date {
 	}
 	
 	/**
+	 * 
+	 * @param mins
+	 * @return a new date with the minutes added.
+	 */
+	public Date addMinutes(int mins) {
+		return null;
+	}
+	/**
 	 * Gives the day of the week as an int(0=Monday, 1=Thursday, etc..)
 	 * @return the day of the week as an in.
 	 * @throws ParseException
@@ -202,6 +211,27 @@ public class Date {
 		return new Date(now.getYear(), now.getMonthValue(),now.getDayOfMonth(), now.getHour(), now.getMinute());
 	}
 	
+	public static Date getTomorrowMorning() {
+		Date d = getCurrentDate();
+		Date d2 = new Date(d.year,d.month,d.day+1,d.hour=9,d.min=0);
+		return d2;
+	}
+	
+	
+	public List<Date> makeSmartDateList(int every, List<Date> exclude) throws ParseException {
+		Date refDate = this;
+		List<Date> dList = null;
+		for(int i=0; i <= 10; i++) {
+			//Têm que ser corrigido fazer com que os mins n passem de 59 e avançe a hora.
+			Date smartDate = new Date(refDate.year, refDate.month, refDate.day, refDate.hour, refDate.min+every);
+			if(smartDate.hour > 9 && smartDate.hour < 12 && smartDate.hour > 14 && smartDate.hour < 18) {
+				if(!(exclude.contains(smartDate)) && (!(smartDate.isHolyday())) && (smartDate.dayOfWeek() != 5) && (smartDate.dayOfWeek() != 6)) {
+					dList.add(smartDate);
+				}
+			}
+		}
+		return dList;
+	}
 	@Override
 	public String toString() {
 		return year+"."+month+"."+day+"."+hour+"."+min;

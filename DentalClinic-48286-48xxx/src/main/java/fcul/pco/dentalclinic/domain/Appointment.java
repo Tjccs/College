@@ -15,11 +15,11 @@ public class Appointment {
 		PatientCatalog patientCatalog;
 		Agenda a;
 
-		public Appointment(Date date, String task, int duration, int pId) {
+		public Appointment(Date date, String task, int duration, Patient p) {
 			this.date = date;
 			this.task = task;
 			this.duration = duration;
-			Patient p = patientCatalog.getPatientById(pId);
+			int pId = p.getSns();
 		}
 		
 		
@@ -40,7 +40,7 @@ public class Appointment {
 		public static Appointment fromString(String s) {
 			String[] elements = s.split("[$]");
 			Date date = Date.fromString(elements[0]);
-			Appointment ap = new Appointment(date, elements[1], Integer.parseInt(elements[2]), Integer.parseInt(elements[3]));
+			Appointment ap = new Appointment(date, elements[1], Integer.parseInt(elements[2]), Patient.fromString(elements[3]));
 			return ap;
 		}
 		

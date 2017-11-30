@@ -31,10 +31,17 @@ public class Agenda implements Iterable<Appointment> {
 	public List<Appointment> getAppointments() {
 		return appointments;
 	}
-
+	
+	public List<Date> getNextAppointmentDates(Date from) {
+		for(Appointment ap : appointments) {
+			
+		}
+		return null;
+	}
+	
 	@Override
 	public Iterator<Appointment> iterator() {
-		// TODO Auto-generated method stub
+		
 		return null;
 	}
 	
