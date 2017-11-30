@@ -88,7 +88,7 @@ public class Date {
 	 */
 	public boolean isBefore(Date other) {
 		//return (this.day < other.day && this.month < other.month) ? true : false;
-		if(this .year < other.year) return true;
+		if(this.year < other.year) return true;
 		if(this.year == other.year) {
 			if(this.month < other.month) {
 				return true;
