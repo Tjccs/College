@@ -270,10 +270,10 @@ public class Date {
 		for(int i=0; i < 10; i++) {
 			//Tem que ser corrigido fazer com que os mins n passem de 59 e avance a hora.
 			Date smartDate = new Date(refDate.year, refDate.month, refDate.day, refDate.hour, refDate.min);
-			smartDate.addMinutes(every);
-			if(smartDate.hour > 9 && smartDate.hour < 12 && smartDate.hour > 14 && smartDate.hour < 18) {
-				if(!(exclude.contains(smartDate)) && (!(smartDate.isHolyday())) && (smartDate.dayOfWeek() != 5) && (smartDate.dayOfWeek() != 6)) {
-					dList.add(smartDate);
+			Date smartDateR = smartDate.addMinutes(every);
+			if(smartDateR.hour > 9 && smartDateR.hour < 12 && smartDateR.hour > 14 && smartDateR.hour < 18) {
+				if(!(exclude.contains(smartDateR)) && (!(smartDateR.isHolyday())) && (smartDateR.dayOfWeek() != 5) && (smartDateR.dayOfWeek() != 6)) {
+					dList.add(smartDateR);
 				}
 			}
 		}
