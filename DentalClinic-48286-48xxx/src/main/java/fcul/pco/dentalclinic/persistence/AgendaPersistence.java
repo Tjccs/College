@@ -3,6 +3,7 @@ package fcul.pco.dentalclinic.persistence;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Scanner;
@@ -29,7 +30,7 @@ public class AgendaPersistence {
 	public static Agenda load(Doctor d) throws FileNotFoundException {
 		Agenda aLoad = new Agenda();
 		String dId = Integer.toString(d.getId());
-		Scanner scanner = new Scanner(new File(ApplicationConfiguration.ROOT_DIRECTORY+dId));
+		Scanner scanner = new Scanner(new FileReader(ApplicationConfiguration.ROOT_DIRECTORY+"/"+dId));
 		scanner.useDelimiter("[$]");
 
 		while (scanner.hasNext()) {

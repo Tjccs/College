@@ -15,6 +15,7 @@ public class App {
 	static DoctorCatalog doctorCatalog;
 	static PatientCatalog patientCatalog;
 	
+	
 	public static void main(String[] args) throws IOException, ParseException {
 		initialize();
 		interactiveMode();

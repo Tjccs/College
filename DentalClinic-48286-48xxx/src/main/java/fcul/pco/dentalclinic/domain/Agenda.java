@@ -13,14 +13,16 @@ public class Agenda implements Iterable<Appointment> {
 	/**
 	 * Attribute
 	 */
-	ArrayList<Appointment> appointments = new ArrayList<Appointment>();
+	ArrayList<Appointment> appointments;
 	
+	public Agenda() {
+		appointments = new ArrayList<Appointment>();
+	}
 	public void addAppointment(Appointment a) {
 		appointments.add(a);
 	}
 	
 	public void save(Doctor d) throws IOException {
-		//Duvida
 		AgendaPersistence.save(d.getAgenda(), d);
 	}
 	
@@ -41,10 +43,30 @@ public class Agenda implements Iterable<Appointment> {
 	}
 	
 	@Override
-	public Iterator<Appointment> iterator() {
-		
-		return null;
-	}
-	
+    public Iterator<Appointment> iterator() {
+        Iterator<Appointment> it = new Iterator<Appointment>() {
+
+            private int currentIndex = 0;
+
+            @Override
+            public void remove() {
+                throw new UnsupportedOperationException();
+            }
+
+			@Override
+			public boolean hasNext() {
+				// TODO Auto-generated method stub
+				return false;
+			}
+
+			@Override
+			public Appointment next() {
+				// TODO Auto-generated method stub
+				return null;
+			}
+        };
+        return it;
+    }
+
 	
 }

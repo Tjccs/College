@@ -159,10 +159,18 @@ public class Menu {
 
     private static void dayAgenda(Doctor d, Date day) {
         // not implemented yet.
+    	d.getAgenda();
+    
     }
 
     private static void weekAgenda(Doctor doc) {
-        // not implemented yet.
+    	Date tomorrow = Date.getCurrentDate().addMinutes(24 * 60);
+        int i = 1;
+    	while(i <= 7) {
+    		dayAgenda(doc, tomorrow);
+    		tomorrow = Date.getTomorrowMorning();
+    		i++;
+    	}
     }
 
     /**

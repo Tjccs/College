@@ -11,7 +11,7 @@ public class DoctorCatalog {
 	Map<Integer,Doctor> doctorCatalog;
 	
 	static DoctorCatalog instance;
-	
+
 	private DoctorCatalog() {
 		doctorCatalog = new TreeMap<Integer,Doctor>();
 	}
