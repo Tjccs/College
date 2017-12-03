@@ -12,8 +12,8 @@ import fcul.pco.dentalclinic.domain.PatientCatalog;
 public class App {
 
 	
-	static DoctorCatalog doctorCatalog;
-	static PatientCatalog patientCatalog;
+	private static DoctorCatalog doctorCatalog;
+	private static PatientCatalog patientCatalog;
 	
 	
 	public static void main(String[] args) throws IOException, ParseException {

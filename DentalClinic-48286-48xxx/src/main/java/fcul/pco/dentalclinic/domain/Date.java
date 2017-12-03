@@ -197,7 +197,6 @@ public class Date {
 	 * @return The number of days passed since the start date.
 	 */
 	private int daysSinceStartDate() {
-		
 		return this.intValue() - STARTDATEINT; 
 	}
 	
@@ -207,22 +206,27 @@ public class Date {
 	 * @return a new date with the minutes added.
 	 */
 	public Date addMinutes(int mins) {
-		int minsAdd = min;
+		//TODO ver isto melhor
+		int minsAdd = 0;
 		minsAdd += mins;
-		if(minsAdd >= 60) {
-			if(minsAdd == 60) {
-				minsAdd = 0;
+		int minsAdd2 = min + minsAdd;
+		if(minsAdd2 >= 60) {
+			if(minsAdd2 == 60) {
+				minsAdd2 = 0;
 				this.hour += 1;
 			}else {
 				this.hour += mins / 60;
-				minsAdd %= 60;
+				minsAdd2 %= 60;
 			}
 		}
-		if(this.hour == 24) {
+		if(this.hour >= 24) {
 			this.day += 1;
+			
 		}
-		return new Date(this.year, this.month,this.day,this.hour,minsAdd);
+		Date d = new Date(this.year, this.month,this.day,this.hour,this.min=minsAdd2);
+		return d;
 	}
+	
 	/**
 	 * Gives the day of the week as an int(0=Monday, 1=Thursday, etc..)
 	 * @return the day of the week as an in.
@@ -230,15 +234,12 @@ public class Date {
 	 */
 	public int dayOfWeek() throws ParseException {
 		
-		//this needs to be replaced, it's just a place holder.
 		String dateString = day+"/"+month+"/"+year;
 		java.util.Date dOW = new SimpleDateFormat("dd/M/yyyy").parse(dateString);
 		Calendar c = Calendar.getInstance();
 		c.setTime(dOW);
 		int dayOfWeek = c.get(Calendar.DAY_OF_WEEK);
 		return dayOfWeek;
-	
-		 
 	}
 	
 	/**
@@ -270,22 +271,50 @@ public class Date {
 	public List<Date> makeSmartDateList(int every, List<Date> exclude) throws ParseException {
 		Date refDate = this;
 		List<Date> dList = new ArrayList<Date>();
-		//for(int i=0; i < 10; i++) {
+		Date smartDate = new Date(refDate.year, refDate.month, refDate.day, refDate.hour, refDate.min);
 		while(dList.size() != 10) {
-			Date smartDate = new Date(refDate.year, refDate.month, refDate.day, refDate.hour, refDate.min);
 			Date smartDateR = smartDate.addMinutes(every);
-			if(smartDateR.hour > 9 && smartDateR.hour < 12 && smartDateR.hour > 14 && smartDateR.hour < 18) {
-				if(!(exclude.contains(smartDateR)) && (!(smartDateR.isHolyday())) && (smartDateR.dayOfWeek() != 5) && (smartDateR.dayOfWeek() != 6)) {
-					dList.add(smartDateR);
+			if(smartDateR.hour <= 12 || smartDateR.hour <= 18) {
+				if(smartDateR.hour >= 9 || smartDateR.hour >= 14) {
+					if((!(smartDateR.isHolyday())) && (smartDateR.dayOfWeek() != 5) && (smartDateR.dayOfWeek() != 6)) {
+						if((smartDateR.hour==12 || smartDateR.hour==18) && smartDateR.min > 0) {
+							
+						}else {
+							dList.add(smartDateR);
+						}
+					}
 				}
+			}
+			if(exclude.contains(smartDateR)) {
+				dList.remove(smartDateR);
 			}
 		}
 		return dList;
 	}
 	
+	public int getDay() {
+		return day;
+	}
+	
+	public int getMonth() {
+		return month;
+	}
+	
+	public int getYear() {
+		return year;
+	}
+	
 	public static String dateListToString(List<Date> listDate) {
-		//TODO
-		return null;
+		List<List<String>> table = new ArrayList<>();
+		int i = 1;
+		for(Date d : listDate) {
+			ArrayList<String> row = new ArrayList<>();
+			row.add(String.valueOf(i));
+			row.add(String.valueOf(d));
+			table.add(row);
+			i++;
+		}
+		return Utils.tableToString(table);
 	}
 	
 	@Override
@@ -294,7 +323,7 @@ public class Date {
 	}
 
 	public static Date fromString(String s) {
-		String[] elements = s.split(".");
+		String[] elements = s.split("[.]");
     	Date d = new Date(Integer.parseInt(elements[0]),Integer.parseInt(elements[1]), Integer.parseInt(elements[2]), 
     			Integer.parseInt(elements[3]), Integer.parseInt(elements[4])); 
     	return d;

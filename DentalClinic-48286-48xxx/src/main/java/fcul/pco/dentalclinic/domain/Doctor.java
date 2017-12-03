@@ -31,10 +31,7 @@ public class Doctor {
 	
 	public static Doctor fromString(String s) {
 		String[] elements = s.split(",");
-		//Duvida
     	Doctor d = new Doctor(Integer.parseInt(elements[0]), elements[1], new Agenda()); 
     	return d;
-		
-		
 	}
 }

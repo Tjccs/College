@@ -1,5 +1,6 @@
 package fcul.pco.dentalclinic.main;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.Scanner;
@@ -157,20 +158,34 @@ public class Menu {
         dayAgenda(d, tomorrow);
     }
 
-    private static void dayAgenda(Doctor d, Date day) {
-        // not implemented yet.
-    	d.getAgenda();
-    
-    }
-
-    private static void weekAgenda(Doctor doc) {
-    	Date tomorrow = Date.getCurrentDate().addMinutes(24 * 60);
-        int i = 1;
-    	while(i <= 7) {
-    		dayAgenda(doc, tomorrow);
-    		tomorrow = Date.getTomorrowMorning();
-    		i++;
+    private static void dayAgenda(Doctor d, Date day) throws FileNotFoundException {
+    	List<List<String>> table = new ArrayList<>();
+    	Agenda a = Agenda.load(d);
+    	for(Appointment ap : a) {
+    		if(ap.getDate().sameDay(day)) {
+    			ArrayList<String> row = new ArrayList<>();
+    			row.add(String.valueOf(ap));
+    			//row.add(d.getName());
+    			table.add(row);
+    		}
+    		
     	}
+		if(table.size() == 0) {
+			System.out.println("Não têm consultas no dia "+day.getDay()+" do "+day.getMonth()+" de "+day.getYear());
+		}else {
+			System.out.println(Utils.tableToString(table));
+		}
+	}
+
+    private static void weekAgenda(Doctor doc) throws FileNotFoundException {
+    	Date tomorrow = Date.getCurrentDate().addMinutes(24 * 60);
+        int i = 0;
+        int x = 1440;
+        while(i<7) {
+        	dayAgenda(doc, tomorrow.addMinutes(x));
+        	i++;
+        	x+=1440;
+        }
     }
 
     /**
@@ -183,7 +198,7 @@ public class Menu {
     private static void createAppointmentMenu(Scanner in) throws IOException, ParseException {
         boolean end = false;
         do {
-            System.out.println("Novo paciente..............1");
+           System.out.println("Novo paciente..............1");
             System.out.println("Nova marcação..............2");
             System.out.println("Terminar...................3");
             System.out.println("> ");

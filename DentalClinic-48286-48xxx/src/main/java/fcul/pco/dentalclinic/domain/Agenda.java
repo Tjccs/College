@@ -3,8 +3,11 @@ package fcul.pco.dentalclinic.domain;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import fcul.pco.dentalclinic.persistence.AgendaPersistence;
 
@@ -15,11 +18,16 @@ public class Agenda implements Iterable<Appointment> {
 	 */
 	ArrayList<Appointment> appointments;
 	
+	List<Date> dateList;
+	private int index;
+	
 	public Agenda() {
 		appointments = new ArrayList<Appointment>();
+		index = 0;
 	}
+	
 	public void addAppointment(Appointment a) {
-		appointments.add(a);
+		appointments.add(index, a);
 	}
 	
 	public void save(Doctor d) throws IOException {
@@ -30,42 +38,32 @@ public class Agenda implements Iterable<Appointment> {
 		return AgendaPersistence.load(d);
 	}
 	
-	public List<Appointment> getAppointments() {
-		return appointments;
+	public List<Appointment> getDayAppointments(Date d){
+		List<Appointment> aL = new ArrayList<Appointment>();
+		for(Appointment ap : appointments) {
+			if(ap.getDate() == d) {
+				aL.add(ap);
+				Collections.sort(aL);
+			}
+		}
+		return aL;
 	}
 	
 	public List<Date> getNextAppointmentDates(Date from) {
 		//TODO
-		for(Appointment ap : appointments) {
-			
+		dateList = new ArrayList<>();
+		for(Appointment ap : this) {
+			if(!ap.getDate().isBefore(from)) {
+				
+				dateList.add(ap.getDate());
+			}
 		}
-		return null;
+		return dateList;
 	}
 	
 	@Override
     public Iterator<Appointment> iterator() {
-        Iterator<Appointment> it = new Iterator<Appointment>() {
-
-            private int currentIndex = 0;
-
-            @Override
-            public void remove() {
-                throw new UnsupportedOperationException();
-            }
-
-			@Override
-			public boolean hasNext() {
-				// TODO Auto-generated method stub
-				return false;
-			}
-
-			@Override
-			public Appointment next() {
-				// TODO Auto-generated method stub
-				return null;
-			}
-        };
-        return it;
+		return appointments.iterator();
     }
 
 	

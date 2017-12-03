@@ -7,6 +7,5 @@ public class ApplicationConfiguration {
 	public static final String ROOT_DIRECTORY ="./data/";
 	public static String DOCTOR_CATALOG_FILENAME = "doctorCatalog";
 	public static String PATIENT_CATALOG_FILENAME = "patientCatalog";
-	public static String DOCTOR_AGENDA_FILENAME;
 }
 

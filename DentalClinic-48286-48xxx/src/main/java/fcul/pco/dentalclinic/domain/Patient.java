@@ -10,7 +10,6 @@ public class Patient {
 	 * @param name
 	 */
 	public Patient(int snsNumber, String name) {
-
 		this.snsNumber = snsNumber;
 		this.name = name;
 	}
@@ -30,7 +29,6 @@ public class Patient {
 	}
 
 	public int getSns() {
-		
 		return snsNumber;
 	}
 
