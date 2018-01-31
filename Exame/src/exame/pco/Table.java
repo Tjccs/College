@@ -1,6 +1,7 @@
 package exame.pco;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Table<E> implements ITable<E> {
@@ -74,5 +75,42 @@ public class Table<E> implements ITable<E> {
 		}
 		
 		return newList;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + column;
+		result = prime * result + elements;
+		result = prime * result + row;
+		result = prime * result + ((table == null) ? 0 : table.hashCode());
+		result = prime * result + Arrays.deepHashCode(table2);
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Table other = (Table) obj;
+		if (column != other.column)
+			return false;
+		if (elements != other.elements)
+			return false;
+		if (row != other.row)
+			return false;
+		if (table == null) {
+			if (other.table != null)
+				return false;
+		} else if (!table.equals(other.table))
+			return false;
+		if (!Arrays.deepEquals(table2, other.table2))
+			return false;
+		return true;
 	}
 }
